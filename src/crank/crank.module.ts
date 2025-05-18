@@ -12,26 +12,23 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CrankController } from './crank.controller';
 
 @Module({
-  imports:[
+  imports: [
     UtilsModule,
     StateModule,
     EpochModule,
-    TypeOrmModule.forFeature([
-      Validator,
-      StakeDelegation
-    ]),
+    TypeOrmModule.forFeature([Validator, StakeDelegation]),
     ScheduleModule.forRoot(),
   ],
   providers: [
-    CrankDataService, 
+    CrankDataService,
     CrankSchedulerService,
     CrankOpsService,
     {
-      provide:'CRANK_DATA_SERVICE_LOGGER',
-      useValue:new ServiceLevelLogger('CRANK_DATA_SERVICE_LOGGER')
-    }
+      provide: 'CRANK_DATA_SERVICE_LOGGER',
+      useValue: new ServiceLevelLogger('CRANK_DATA_SERVICE_LOGGER'),
+    },
   ],
   controllers: [CrankController],
-  exports: []
+  exports: [],
 })
 export class CrankModule {}

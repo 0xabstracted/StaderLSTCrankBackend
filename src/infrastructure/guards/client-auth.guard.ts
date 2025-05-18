@@ -38,7 +38,6 @@
 
 //         const initData = new URLSearchParams(reqInitData);
 
-
 //         const hash = initData.get('hash');
 //         initData.delete('hash');
 

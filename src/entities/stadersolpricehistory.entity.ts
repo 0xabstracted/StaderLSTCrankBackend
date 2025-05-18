@@ -1,4 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity('stader_sol_price_history')
 export class StaderSolPriceHistory {
@@ -22,7 +27,7 @@ export class StaderSolPriceHistory {
     transformer: {
       to: (value: bigint) => value.toString(),
       from: (value: string) => BigInt(value),
-    }
+    },
   })
   oldDelegatedLamports: bigint;
 
@@ -33,7 +38,7 @@ export class StaderSolPriceHistory {
       from: (value: string) => BigInt(value),
     },
     nullable: true,
-    comment: 'Only present in UpdateActiveEvent'
+    comment: 'Only present in UpdateActiveEvent',
   })
   newDelegatedLamports: bigint;
 
@@ -44,7 +49,8 @@ export class StaderSolPriceHistory {
       from: (value: string) => BigInt(value),
     },
     nullable: true,
-    comment: 'extraLamports + newDelegatedLamports in UpdateActiveEvent, stakeBalanceWithoutRent in UpdateDeactivatedEvent'
+    comment:
+      'extraLamports + newDelegatedLamports in UpdateActiveEvent, stakeBalanceWithoutRent in UpdateDeactivatedEvent',
   })
   stakeBalanceWithoutRent: bigint;
 
@@ -55,7 +61,8 @@ export class StaderSolPriceHistory {
       from: (value: string) => BigInt(value),
     },
     nullable: true,
-    comment: 'delegationGrowthStaderSolFees in UpdateActiveEvent, staderSolFees in UpdateDeactivatedEvent'
+    comment:
+      'delegationGrowthStaderSolFees in UpdateActiveEvent, staderSolFees in UpdateDeactivatedEvent',
   })
   staderSolFees: bigint;
 
@@ -66,7 +73,7 @@ export class StaderSolPriceHistory {
       from: (value: string) => BigInt(value),
     },
     nullable: true,
-    comment: 'Only present in UpdateActiveEvent'
+    comment: 'Only present in UpdateActiveEvent',
   })
   extraLamports: bigint;
 
@@ -77,7 +84,7 @@ export class StaderSolPriceHistory {
       from: (value: string) => BigInt(value),
     },
     nullable: true,
-    comment: 'Only present in UpdateActiveEvent'
+    comment: 'Only present in UpdateActiveEvent',
   })
   extraStaderSolFees: bigint;
 
@@ -88,7 +95,7 @@ export class StaderSolPriceHistory {
     transformer: {
       to: (value: number) => value,
       from: (value: string) => Number(value),
-    }
+    },
   })
   oldStaderSolPrice: number;
 
@@ -99,34 +106,34 @@ export class StaderSolPriceHistory {
     transformer: {
       to: (value: number) => value,
       from: (value: string) => Number(value),
-    }
+    },
   })
   newStaderSolPrice: number;
 
   @Column({
     type: 'bigint',
     transformer: {
-      to: (value: bigint | null) => value === null ? null : value.toString(),
-      from: (value: string | null) => value === null ? null : BigInt(value),
-    }
+      to: (value: bigint | null) => (value === null ? null : value.toString()),
+      from: (value: string | null) => (value === null ? null : BigInt(value)),
+    },
   })
   rewardFeeUsed: bigint;
 
   @Column({
     type: 'bigint',
     transformer: {
-      to: (value: bigint | null) => value === null ? null : value.toString(),
-      from: (value: string | null) => value === null ? null : BigInt(value),
-    }
+      to: (value: bigint | null) => (value === null ? null : value.toString()),
+      from: (value: string | null) => (value === null ? null : BigInt(value)),
+    },
   })
   staderSolSupply: bigint;
 
   @Column({
     type: 'bigint',
     transformer: {
-      to: (value: bigint | null) => value === null ? null : value.toString(),
-      from: (value: string | null) => value === null ? null : BigInt(value),
-    }
+      to: (value: bigint | null) => (value === null ? null : value.toString()),
+      from: (value: string | null) => (value === null ? null : BigInt(value)),
+    },
   })
   totalVirtualStakedLamports: bigint;
 
@@ -134,9 +141,9 @@ export class StaderSolPriceHistory {
     type: 'bigint',
     nullable: true,
     transformer: {
-      to: (value: bigint | null) => value === null ? null : value.toString(),
-      from: (value: string | null) => value === null ? null : BigInt(value),
-    }
+      to: (value: bigint | null) => (value === null ? null : value.toString()),
+      from: (value: string | null) => (value === null ? null : BigInt(value)),
+    },
   })
   operationalSolBalance: bigint | null;
 
@@ -145,4 +152,4 @@ export class StaderSolPriceHistory {
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
-} 
+}

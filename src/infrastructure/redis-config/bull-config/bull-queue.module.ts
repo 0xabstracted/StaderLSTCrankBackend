@@ -6,11 +6,11 @@ import { BullModule } from '@nestjs/bull';
 @Module({
   imports: [
     BullModule.registerQueueAsync({
-      name: 'bill-image-processing-queue', 
+      name: 'bill-image-processing-queue',
       imports: [EnvironmentConfigModule],
       inject: [EnvironmentConfigService],
       useFactory: (config: EnvironmentConfigService) => ({
-        name: 'bill-image-processing-queue', 
+        name: 'bill-image-processing-queue',
         redis: {
           host: config.getRedisHost(),
           port: config.getRedisPort(),
@@ -20,11 +20,11 @@ import { BullModule } from '@nestjs/bull';
       }),
     }),
     BullModule.registerQueueAsync({
-      name: 'solana-deposit-payments-processing-queue', 
+      name: 'solana-deposit-payments-processing-queue',
       imports: [EnvironmentConfigModule],
       inject: [EnvironmentConfigService],
       useFactory: (config: EnvironmentConfigService) => ({
-        name: 'solana-deposit-payments-processing-queue', 
+        name: 'solana-deposit-payments-processing-queue',
         redis: {
           host: config.getRedisHost(),
           port: config.getRedisPort(),
@@ -34,11 +34,11 @@ import { BullModule } from '@nestjs/bull';
       }),
     }),
     BullModule.registerQueueAsync({
-      name: 'solana-withdraw-payments-processing-queue', 
+      name: 'solana-withdraw-payments-processing-queue',
       imports: [EnvironmentConfigModule],
       inject: [EnvironmentConfigService],
       useFactory: (config: EnvironmentConfigService) => ({
-        name: 'solana-withdraw-payments-processing-queue', 
+        name: 'solana-withdraw-payments-processing-queue',
         redis: {
           host: config.getRedisHost(),
           port: config.getRedisPort(),
@@ -46,7 +46,7 @@ import { BullModule } from '@nestjs/bull';
           db: config.getRedisDb(),
         },
       }),
-    })
+    }),
   ],
   exports: [BullModule],
 })

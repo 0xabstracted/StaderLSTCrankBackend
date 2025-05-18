@@ -1,20 +1,19 @@
 import { Module } from '@nestjs/common';
-import { EnvironmentConfigModule, ServiceLevelLogger } from 'src/infrastructure';
+import {
+  EnvironmentConfigModule,
+  ServiceLevelLogger,
+} from 'src/infrastructure';
 import { SolanaUtilService } from './solana-utils.service';
 
 @Module({
-  imports:[
-    EnvironmentConfigModule
-  ],
-  providers:[
+  imports: [EnvironmentConfigModule],
+  providers: [
     SolanaUtilService,
     {
-      provide:'SOLANA_UTIL_LOGGER',
-      useValue: new ServiceLevelLogger('SOLANA_UTIL_LOGGER')
-    }
+      provide: 'SOLANA_UTIL_LOGGER',
+      useValue: new ServiceLevelLogger('SOLANA_UTIL_LOGGER'),
+    },
   ],
-  exports:[
-    SolanaUtilService
-  ]
+  exports: [SolanaUtilService],
 })
-export class UtilsModule{}
+export class UtilsModule {}

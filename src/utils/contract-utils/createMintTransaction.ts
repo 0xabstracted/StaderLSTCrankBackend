@@ -1,6 +1,21 @@
-import { createInitializeMint2Instruction, getMinimumBalanceForRentExemptMint, MINT_SIZE, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import type { ConfirmOptions, Connection, PublicKey, Signer } from '@solana/web3.js';
-import { Keypair, sendAndConfirmTransaction, SystemProgram, Transaction } from '@solana/web3.js';
+import {
+  createInitializeMint2Instruction,
+  getMinimumBalanceForRentExemptMint,
+  MINT_SIZE,
+  TOKEN_PROGRAM_ID,
+} from '@solana/spl-token';
+import type {
+  ConfirmOptions,
+  Connection,
+  PublicKey,
+  Signer,
+} from '@solana/web3.js';
+import {
+  Keypair,
+  sendAndConfirmTransaction,
+  SystemProgram,
+  Transaction,
+} from '@solana/web3.js';
 
 /**
  * Create and initialize a new mint
@@ -17,27 +32,33 @@ import { Keypair, sendAndConfirmTransaction, SystemProgram, Transaction } from '
  * @return Address of the new mint
  */
 export async function createMintTransaction(
-    connection: Connection,
-    payer: Signer,
-    mintAuthority: PublicKey,
-    freezeAuthority: PublicKey | null,
-    decimals: number,
-    keypair = Keypair.generate(),
-    confirmOptions?: ConfirmOptions,
-    programId = TOKEN_PROGRAM_ID,
+  connection: Connection,
+  payer: Signer,
+  mintAuthority: PublicKey,
+  freezeAuthority: PublicKey | null,
+  decimals: number,
+  keypair = Keypair.generate(),
+  confirmOptions?: ConfirmOptions,
+  programId = TOKEN_PROGRAM_ID,
 ): Promise<Transaction> {
-    const lamports = await getMinimumBalanceForRentExemptMint(connection);
+  const lamports = await getMinimumBalanceForRentExemptMint(connection);
 
-    const transaction = new Transaction().add(
-        SystemProgram.createAccount({
-            fromPubkey: payer.publicKey,
-            newAccountPubkey: keypair.publicKey,
-            space: MINT_SIZE,
-            lamports,
-            programId,
-        }),
-        createInitializeMint2Instruction(keypair.publicKey, decimals, mintAuthority, freezeAuthority, programId),
-    );
+  const transaction = new Transaction().add(
+    SystemProgram.createAccount({
+      fromPubkey: payer.publicKey,
+      newAccountPubkey: keypair.publicKey,
+      space: MINT_SIZE,
+      lamports,
+      programId,
+    }),
+    createInitializeMint2Instruction(
+      keypair.publicKey,
+      decimals,
+      mintAuthority,
+      freezeAuthority,
+      programId,
+    ),
+  );
 
-    return transaction;
+  return transaction;
 }

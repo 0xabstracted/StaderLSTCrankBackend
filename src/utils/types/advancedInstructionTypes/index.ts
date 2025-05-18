@@ -1,17 +1,17 @@
-import { 
-    StakeReserveParam, 
-    UpdateActiveParam, 
-    UpdateDeactivatedParam, 
-    DeactivateStakeParam,
-    MergeStakeParam,
-    RedelegateParam,
-} from "./cranks"
+import {
+  StakeReserveParam,
+  UpdateActiveParam,
+  UpdateDeactivatedParam,
+  DeactivateStakeParam,
+  MergeStakeParam,
+  RedelegateParam,
+} from './cranks';
 
 export {
-    StakeReserveParam,
-    UpdateActiveParam,
-    UpdateDeactivatedParam,
-    DeactivateStakeParam,
-    MergeStakeParam,
-    RedelegateParam,
-}
+  StakeReserveParam,
+  UpdateActiveParam,
+  UpdateDeactivatedParam,
+  DeactivateStakeParam,
+  MergeStakeParam,
+  RedelegateParam,
+};

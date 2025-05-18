@@ -3,26 +3,25 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  Column
-}
-from 'typeorm'
+  Column,
+} from 'typeorm';
 
 @Entity('stakedelegation')
-export class StakeDelegation{
+export class StakeDelegation {
   @PrimaryGeneratedColumn('uuid')
-  id:string;
+  id: string;
 
-  @Column({type:'varchar',length:255})
-  stakeAccount:string;
+  @Column({ type: 'varchar', length: 255 })
+  stakeAccount: string;
 
-  @Column({type:'int'})
-  stakeAcIndex:number;
+  @Column({ type: 'int' })
+  stakeAcIndex: number;
 
-  @Column({type:'varchar',length:255})
-  validatorAccount:string;
+  @Column({ type: 'varchar', length: 255 })
+  validatorAccount: string;
 
-  @Column({type:'int'})
-  validatorAcIndex:number;
+  @Column({ type: 'int' })
+  validatorAcIndex: number;
 
   @Column({
     type: 'bigint',
@@ -30,7 +29,7 @@ export class StakeDelegation{
     transformer: {
       to: (value: bigint) => value.toString(),
       from: (value: string) => BigInt(value),
-    }
+    },
   })
   stakedAmount: bigint;
 
@@ -44,5 +43,3 @@ export class StakeDelegation{
   })
   updatedAt: Date;
 }
-
-

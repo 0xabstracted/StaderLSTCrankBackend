@@ -20,4 +20,5 @@ export class RemoveValidatorEvent {
   // Add other relevant fields if necessary
 }
 
-export const RemoveValidatorEventSchema = SchemaFactory.createForClass(RemoveValidatorEvent);
+export const RemoveValidatorEventSchema =
+  SchemaFactory.createForClass(RemoveValidatorEvent);

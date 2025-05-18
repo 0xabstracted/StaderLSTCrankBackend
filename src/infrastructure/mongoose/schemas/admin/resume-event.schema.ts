@@ -9,4 +9,4 @@ export class ResumeEvent {
   state: string;
 }
 
-export const ResumeEventSchema = SchemaFactory.createForClass(ResumeEvent); 
+export const ResumeEventSchema = SchemaFactory.createForClass(ResumeEvent);

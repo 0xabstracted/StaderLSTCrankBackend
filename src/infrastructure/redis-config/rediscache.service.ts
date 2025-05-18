@@ -24,17 +24,8 @@ export class RedisCacheService {
    * @param value value you want to set
    * @param ttl time to leave for the key
    */
-  async set<T>(
-    key: string,
-    value: T,
-    ttl?: number,
-  ): Promise<void> {
-    await this.redisClient.set(
-      `${key}`,
-      JSON.stringify(value),
-      'EX',
-      ttl,
-    );
+  async set<T>(key: string, value: T, ttl?: number): Promise<void> {
+    await this.redisClient.set(`${key}`, JSON.stringify(value), 'EX', ttl);
   }
 
   /**

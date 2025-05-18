@@ -13,20 +13,19 @@ export class CrankController {
   @ApiOperation({ summary: 'Get current crank operations status' })
   @ApiResponse({
     status: 200,
-    description: 'Returns the status of all crank operations'
+    description: 'Returns the status of all crank operations',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getStatus() {
     const status = await this.crankSchedulerService.getCranksExecutionStatus();
     return {
       success: true,
       data: status,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 }
-

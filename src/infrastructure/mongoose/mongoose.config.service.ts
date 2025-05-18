@@ -9,7 +9,7 @@ import { EnvironmentConfigService } from '../environment-config';
 @Injectable()
 export class MongooseConfigService implements MongooseOptionsFactory {
   constructor(
-    private readonly environmentConfigService:EnvironmentConfigService
+    private readonly environmentConfigService: EnvironmentConfigService,
   ) {}
   createMongooseOptions():
     | MongooseModuleOptions

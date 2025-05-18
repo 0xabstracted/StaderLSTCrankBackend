@@ -51,4 +51,5 @@ export class MergeStakesEvent {
   operationalSolBalance: number;
 }
 
-export const MergeStakesEventSchema = SchemaFactory.createForClass(MergeStakesEvent); 
+export const MergeStakesEventSchema =
+  SchemaFactory.createForClass(MergeStakesEvent);

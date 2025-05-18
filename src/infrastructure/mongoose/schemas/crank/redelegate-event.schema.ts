@@ -3,11 +3,11 @@ import { Document } from 'mongoose';
 
 export type RedelegateEventDocument = RedelegateEvent & Document;
 
-class SplitStakeAccount{
-  @Prop({required:true})
-  account:string;
-  @Prop({required:true})
-  index:number
+class SplitStakeAccount {
+  @Prop({ required: true })
+  account: string;
+  @Prop({ required: true })
+  index: number;
 }
 
 @Schema()
@@ -70,4 +70,5 @@ export class RedelegateEvent {
   redelegateStakeAccount: string;
 }
 
-export const RedelegateEventSchema = SchemaFactory.createForClass(RedelegateEvent); 
+export const RedelegateEventSchema =
+  SchemaFactory.createForClass(RedelegateEvent);

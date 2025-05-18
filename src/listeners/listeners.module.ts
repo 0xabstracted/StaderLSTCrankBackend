@@ -9,9 +9,9 @@ import { EpochModule } from '../epoch/epoch.module';
   imports: [
     TypeOrmModule.forFeature([UnstakeTickets]),
     UtilsModule,
-    EpochModule
+    EpochModule,
   ],
   providers: [UnstakeTicketListener],
-  exports: [UnstakeTicketListener]
+  exports: [UnstakeTicketListener],
 })
-export class ListenersModule {} 
+export class ListenersModule {}

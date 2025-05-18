@@ -14,7 +14,7 @@ const chooseFilePath = function () {
       break;
     case 'production':
       filePath = './env/.prod.env';
-      break
+      break;
   }
   return filePath;
 };

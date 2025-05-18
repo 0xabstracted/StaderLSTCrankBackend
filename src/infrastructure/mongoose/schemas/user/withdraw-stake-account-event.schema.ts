@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type WithdrawStakeAccountEventDocument = WithdrawStakeAccountEvent & Document;
+export type WithdrawStakeAccountEventDocument = WithdrawStakeAccountEvent &
+  Document;
 
 @Schema()
 export class WithdrawStakeAccountEvent {
@@ -57,4 +58,6 @@ export class WithdrawStakeAccountEvent {
   staderSolSupply: number;
 }
 
-export const WithdrawStakeAccountEventSchema = SchemaFactory.createForClass(WithdrawStakeAccountEvent);
+export const WithdrawStakeAccountEventSchema = SchemaFactory.createForClass(
+  WithdrawStakeAccountEvent,
+);

@@ -8,9 +8,7 @@ export class EpochService {
   private connection: Connection;
   readonly SLOT_TIME_SECONDS = 0.4; // 400ms per slot
 
-  constructor(
-    private readonly solanaUtilService: SolanaUtilService
-  ) {
+  constructor(private readonly solanaUtilService: SolanaUtilService) {
     this.connection = this.solanaUtilService.getConnection();
   }
 
@@ -24,13 +22,17 @@ export class EpochService {
   }> {
     try {
       const epochInfo: EpochInfo = await this.connection.getEpochInfo();
-       // Validate epoch info and slot
-       if (!epochInfo || typeof epochInfo.slotsInEpoch !== 'number' || typeof epochInfo.slotIndex !== 'number') {
+      // Validate epoch info and slot
+      if (
+        !epochInfo ||
+        typeof epochInfo.slotsInEpoch !== 'number' ||
+        typeof epochInfo.slotIndex !== 'number'
+      ) {
         throw new Error('Invalid epoch info');
       }
       const progress = (epochInfo.slotIndex / epochInfo.slotsInEpoch) * 100;
       const slotsRemaining = epochInfo.slotsInEpoch - epochInfo.slotIndex;
-      const timeLeftInEpoch = (slotsRemaining * this.SLOT_TIME_SECONDS); // Convert to seconds
+      const timeLeftInEpoch = slotsRemaining * this.SLOT_TIME_SECONDS; // Convert to seconds
 
       this.logger.debug(`Current epoch: ${epochInfo.epoch}`);
       // this.logger.debug(`Slot index: ${epochInfo.slotIndex}`);
@@ -38,7 +40,7 @@ export class EpochService {
       // this.logger.debug(`Absolute slot: ${epochInfo.absoluteSlot}`);
       // this.logger.debug(`Time left in epoch: ${timeLeftInEpoch}`);
       // this.logger.debug(`Current epoch progress: ${progress.toFixed(2)}%`);
-      
+
       return {
         currentEpoch: epochInfo.epoch,
         slotIndex: epochInfo.slotIndex,
@@ -60,42 +62,48 @@ export class EpochService {
   }> {
     try {
       const connection = this.solanaUtilService.getConnection();
-      // Fetch epoch info 
+      // Fetch epoch info
       const epochInfo = await connection.getEpochInfo();
       // Fetch current slot
       const slot = await connection.getSlot();
-      
+
       // Validate epoch info and slot
-      if (!epochInfo || typeof epochInfo.slotsInEpoch !== 'number' || typeof epochInfo.slotIndex !== 'number') {
+      if (
+        !epochInfo ||
+        typeof epochInfo.slotsInEpoch !== 'number' ||
+        typeof epochInfo.slotIndex !== 'number'
+      ) {
         throw new Error('Invalid epoch info');
       }
       if (typeof slot !== 'number') {
         throw new Error('Invalid slot');
       }
-  
+
       // Get current slot's timestamp (in seconds)
       const currentTimestamp = await connection.getBlockTime(slot);
       if (!currentTimestamp) {
         throw new Error('Could not get block time for the current slot');
       }
-  
+
       // If target epoch is provided, calculate additional epochs
       const epochsToAdd = targetEpoch ? targetEpoch - epochInfo.epoch : 1;
-      
+
       // Calculate remaining slots in current epoch plus additional epochs
-      const slotsRemaining = (epochInfo.slotsInEpoch - epochInfo.slotIndex) + 
-                           ((epochsToAdd - 1) * epochInfo.slotsInEpoch);
-      
+      const slotsRemaining =
+        epochInfo.slotsInEpoch -
+        epochInfo.slotIndex +
+        (epochsToAdd - 1) * epochInfo.slotsInEpoch;
+
       // Calculate time remaining (in seconds)
       const timeRemainingInEpoch = slotsRemaining * this.SLOT_TIME_SECONDS;
-      
+
       // Target epoch's timestamp will be current time + remaining time
       const targetEpochTimestamp = currentTimestamp + timeRemainingInEpoch;
-      
+
       return {
         epoch: epochInfo.epoch,
         targetEpochTimestamp,
-        date: new Date(targetEpochTimestamp * 1000).toISOString()
+        date: new Date(targetEpochTimestamp * 1000).toISOString(),
       };
     } catch (error) {
       this.logger.error('Error calculating epoch timestamp:', error);
@@ -109,7 +117,7 @@ export class EpochService {
     date: string;
   }> {
     const connection = this.solanaUtilService.getConnection();
-    
+
     try {
       // If targetSlot is provided, get its timestamp
       if (targetSlot) {
@@ -122,10 +130,10 @@ export class EpochService {
         return {
           slot: targetSlot,
           timestamp,
-          date: new Date(timestamp * 1000).toISOString()
+          date: new Date(timestamp * 1000).toISOString(),
         };
       }
-      
+
       // Otherwise get current slot and its timestamp
       const currentSlot = await connection.getSlot();
       if (typeof currentSlot !== 'number') {
@@ -140,7 +148,7 @@ export class EpochService {
       return {
         slot: currentSlot,
         timestamp: currentTimestamp,
-        date: new Date(currentTimestamp * 1000).toISOString()
+        date: new Date(currentTimestamp * 1000).toISOString(),
       };
     } catch (error) {
       this.logger.error('Error getting slot info:', error);
@@ -154,7 +162,8 @@ export class EpochService {
     timeUntilExecution: number;
   }> {
     const epochInfo = await this.getEpochProgress();
-    const epochSchedule: EpochSchedule = await this.connection.getEpochSchedule();
+    const epochSchedule: EpochSchedule =
+      await this.connection.getEpochSchedule();
     const lastSlot = epochSchedule.getLastSlotInEpoch(epochInfo.currentEpoch);
     const targetSlot = lastSlot - slotsForStakeDelta;
     const slotsUntilExecution = targetSlot - epochInfo.absoluteSlot;
@@ -163,13 +172,12 @@ export class EpochService {
       message: 'Slot checker',
       currentSlot: epochInfo.absoluteSlot,
       targetSlot,
-      timeUntilExecution
+      timeUntilExecution,
     });
     return {
       currentSlot: epochInfo.absoluteSlot,
       targetSlot,
-      timeUntilExecution
+      timeUntilExecution,
     };
   }
-
-} 
+}

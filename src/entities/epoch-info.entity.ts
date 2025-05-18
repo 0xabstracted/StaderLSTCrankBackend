@@ -17,16 +17,22 @@ export class EpochInfo {
   @Column({ type: 'integer' })
   slotsInEpoch: number;
 
-  @Column({ type: 'bigint', transformer: { 
-    to: (value: bigint) => value.toString(),
-    from: (value: string) => BigInt(value)
-  }})
+  @Column({
+    type: 'bigint',
+    transformer: {
+      to: (value: bigint) => value.toString(),
+      from: (value: string) => BigInt(value),
+    },
+  })
   startTimestamp: bigint;
 
-  @Column({ type: 'bigint', transformer: { 
-    to: (value: bigint) => value.toString(),
-    from: (value: string) => BigInt(value)
-  }})
+  @Column({
+    type: 'bigint',
+    transformer: {
+      to: (value: bigint) => value.toString(),
+      from: (value: string) => BigInt(value),
+    },
+  })
   endTimestamp: bigint;
 
   @Column({ type: 'integer' })
@@ -47,4 +53,4 @@ export class EpochInfo {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
-} 
+}

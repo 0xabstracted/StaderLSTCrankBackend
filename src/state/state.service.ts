@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { UnstakeTickets } from 'src/entities/unstaketickets.entity';
 import { StakeDelegation } from 'src/entities/stakedelegationhistory.entity';
 import { EpochService } from '../epoch/epoch.service';
-import { StaderSolPriceHistory } from '../entities/staderSolpricehistory.entity';
+import { StaderSolPriceHistory } from '../entities/stadersolpricehistory.entity';
 
 // Move interface outside the class
 interface TicketUpdate {
@@ -18,10 +18,10 @@ interface TicketUpdate {
 @Injectable()
 export class StateService {
   private readonly logger = new Logger(StateService.name);
-  private readonly SLOTS_PER_EPOCH = 432000;  // Number of slots in an epoch
-  private readonly SLOT_DURATION_MS = 400;     // Duration of each slot in milliseconds
-  private readonly MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000;  // Milliseconds in a year (including leap year average) 31,557,600,000
-  
+  private readonly SLOTS_PER_EPOCH = 432000; // Number of slots in an epoch
+  private readonly SLOT_DURATION_MS = 400; // Duration of each slot in milliseconds
+  private readonly MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000; // Milliseconds in a year (including leap year average) 31,557,600,000
+
   constructor(
     private readonly solanaUtilsService: SolanaUtilService,
     private readonly epochService: EpochService,
@@ -40,34 +40,32 @@ export class StateService {
   }
 
   private calculateEpochsPerYear(): number {
-    const msPerEpoch = this.SLOTS_PER_EPOCH * this.SLOT_DURATION_MS; // 172,800,000 
+    const msPerEpoch = this.SLOTS_PER_EPOCH * this.SLOT_DURATION_MS; // 172,800,000
     const epochsPerYear = this.MS_PER_YEAR / msPerEpoch; // 182.625
     return epochsPerYear;
   }
 
   async getState() {
-    const stateAccountPublicKey = this.solanaUtilsService.getStateAccountPublicKey();
+    const stateAccountPublicKey =
+      this.solanaUtilsService.getStateAccountPublicKey();
     const program = this.solanaUtilsService.getProgram();
-    const state = await program.account.state.fetch(
-      stateAccountPublicKey
-    );
+    const state = await program.account.state.fetch(stateAccountPublicKey);
     return state;
   }
 
   async getStaderSolPrice(): Promise<{ price: number; rawPrice: string }> {
     try {
-      const stateAccountPublicKey = this.solanaUtilsService.getStateAccountPublicKey();
+      const stateAccountPublicKey =
+        this.solanaUtilsService.getStateAccountPublicKey();
       const program = this.solanaUtilsService.getProgram();
-      const state = await program.account.state.fetch(
-        stateAccountPublicKey
-      );
+      const state = await program.account.state.fetch(stateAccountPublicKey);
       const rawPrice = state.staderSolPrice;
-      const PRICE_DENOMINATOR = BigInt("0x100000000");
+      const PRICE_DENOMINATOR = BigInt('0x100000000');
       const price = Number(rawPrice) / Number(PRICE_DENOMINATOR);
       this.logger.verbose(`staderSOL Price: ${price}`);
       return {
         price,
-        rawPrice: rawPrice.toString()
+        rawPrice: rawPrice.toString(),
       };
     } catch (error) {
       this.logger.error('Error fetching staderSOL price:', error);
@@ -78,19 +76,19 @@ export class StateService {
   async getAllDelayedUnstakeTickets() {
     try {
       const tickets = await this.unstakeTicketsRepository.find({
-        order: { created_at: 'DESC' }
+        order: { created_at: 'DESC' },
       });
 
-      const serializedTickets = tickets.map(ticket => ({
+      const serializedTickets = tickets.map((ticket) => ({
         ...ticket,
         solAmount: ticket.solAmount.toString(),
-        claimableTime: ticket.claimableTime.toString()
+        claimableTime: ticket.claimableTime.toString(),
       }));
 
       return {
         success: true,
         data: serializedTickets,
-        count: tickets.length
+        count: tickets.length,
       };
     } catch (error) {
       this.logger.error('Error fetching all unstake tickets:', error);
@@ -102,9 +100,9 @@ export class StateService {
     try {
       // First attempt to get from database
       const tickets = await this.unstakeTicketsRepository.find({
-        where: { claimed: false }
+        where: { claimed: false },
       });
-      
+
       if (tickets.length > 0) {
         return tickets.map((ticket) => ({
           ticketAccount: ticket.ticket,
@@ -113,7 +111,7 @@ export class StateService {
           createdEpoch: ticket.ticketCreatedEpoch.toString(),
         }));
       }
-      
+
       // If no tickets in database, fallback to blockchain read
       const program = this.solanaUtilsService.getProgram();
       const ticketAccountData = await program.account.ticketAccountData.all();
@@ -124,30 +122,30 @@ export class StateService {
         createdEpoch: ticket.account.createdEpoch.toString(),
       }));
     } catch (error) {
-      console.log("Error in getAllUnclaimedDelayedUnstakeTickets : ", error)
+      console.log('Error in getAllUnclaimedDelayedUnstakeTickets : ', error);
       throw error;
     }
   }
-  
+
   async getUnclaimedUnstakeTicketsByBenificiary(beneficiary: string) {
     try {
       const tickets = await this.unstakeTicketsRepository.find({
-        where: { 
+        where: {
           beneficiary,
-          claimed: false
+          claimed: false,
         },
-        order: { created_at: 'DESC' }
+        order: { created_at: 'DESC' },
       });
 
-      const serializedTickets = tickets.map(ticket => ({
+      const serializedTickets = tickets.map((ticket) => ({
         ...ticket,
         solAmount: ticket.solAmount.toString(),
-        claimableTime: ticket.claimableTime.toString()
+        claimableTime: ticket.claimableTime.toString(),
       }));
 
       return {
         success: true,
-        data: serializedTickets
+        data: serializedTickets,
       };
     } catch (error) {
       this.logger.error('Error fetching unstake tickets:', error);
@@ -163,11 +161,12 @@ export class StateService {
     stakedAmount?: bigint | null;
   }) {
     try {
-      const newDelegation = this.stakeDelegationRepository.create(stakeDelegation);
+      const newDelegation =
+        this.stakeDelegationRepository.create(stakeDelegation);
       await this.stakeDelegationRepository.save(newDelegation);
       return {
         success: true,
-        data: newDelegation
+        data: newDelegation,
       };
     } catch (error) {
       this.logger.error('Error creating stake delegation:', error);
@@ -184,26 +183,26 @@ export class StateService {
   }) {
     try {
       const epochInfo = await this.epochService.getEpochInfo(
-        ticket.ticketCreatedEpoch + 1
+        ticket.ticketCreatedEpoch + 1,
       );
       const claimableTime = epochInfo.targetEpochTimestamp;
-      
+
       const newTicket = this.unstakeTicketsRepository.create({
         ...ticket,
         solAmount: BigInt(ticket.solAmount),
-        claimableTime: BigInt(claimableTime)
+        claimableTime: BigInt(claimableTime),
       });
       const savedTicket = await this.unstakeTicketsRepository.save(newTicket);
 
       const serializedTicket = {
         ...savedTicket,
         solAmount: savedTicket.solAmount.toString(),
-        claimableTime: savedTicket.claimableTime.toString()
+        claimableTime: savedTicket.claimableTime.toString(),
       };
 
       return {
         success: true,
-        data: serializedTicket
+        data: serializedTicket,
       };
     } catch (error) {
       this.logger.error('Error creating unstake ticket:', error);
@@ -211,33 +210,35 @@ export class StateService {
     }
   }
 
-  async createUnstakeTicketsBulk(tickets: {
-    state: string;
-    ticket: string;
-    ticketCreatedEpoch: number;
-    beneficiary: string;
-    solAmount: string;
-    claimableTime: string;
-  }[]) {
+  async createUnstakeTicketsBulk(
+    tickets: {
+      state: string;
+      ticket: string;
+      ticketCreatedEpoch: number;
+      beneficiary: string;
+      solAmount: string;
+      claimableTime: string;
+    }[],
+  ) {
     try {
-      const newTickets = tickets.map(ticket => 
+      const newTickets = tickets.map((ticket) =>
         this.unstakeTicketsRepository.create({
           ...ticket,
           solAmount: BigInt(ticket.solAmount),
-          claimableTime: BigInt(ticket.claimableTime)
-        })
+          claimableTime: BigInt(ticket.claimableTime),
+        }),
       );
       const savedTickets = await this.unstakeTicketsRepository.save(newTickets);
 
-      const serializedTickets = savedTickets.map(ticket => ({
+      const serializedTickets = savedTickets.map((ticket) => ({
         ...ticket,
         solAmount: ticket.solAmount.toString(),
-        claimableTime: ticket.claimableTime.toString()
+        claimableTime: ticket.claimableTime.toString(),
       }));
 
       return {
         success: true,
-        data: serializedTickets
+        data: serializedTickets,
       };
     } catch (error) {
       this.logger.error('Error creating bulk unstake tickets:', error);
@@ -247,7 +248,7 @@ export class StateService {
 
   async calculateAPY() {
     const programStartEpoch = 734;
-    
+
     // Get current epoch info
     const epochInfo = await this.epochService.getEpochInfo();
     const currentEpoch = epochInfo.epoch;
@@ -260,7 +261,9 @@ export class StateService {
       .where('history.currentEpoch = :currentEpoch', { currentEpoch })
       .getMany();
 
-    this.logger.log(`calculateAPY: Found ${currentEpochEntries.length} price entries for epoch ${currentEpoch}`);
+    this.logger.log(
+      `calculateAPY: Found ${currentEpochEntries.length} price entries for epoch ${currentEpoch}`,
+    );
 
     // If no entries in current epoch, try to fallback to latest available epoch
     let actualEpoch = currentEpoch;
@@ -271,61 +274,79 @@ export class StateService {
         .select('DISTINCT history.currentEpoch')
         .orderBy('history.currentEpoch', 'DESC')
         .getRawMany();
-      
-      const availableEpochs = allEntries.map(entry => entry.history_currentEpoch);
-      this.logger.log(`calculateAPY: No entries for current epoch ${currentEpoch}. Available epochs: ${JSON.stringify(availableEpochs)}`);
-      
+
+      const availableEpochs = allEntries.map(
+        (entry) => entry.history_currentEpoch,
+      );
+      this.logger.log(
+        `calculateAPY: No entries for current epoch ${currentEpoch}. Available epochs: ${JSON.stringify(availableEpochs)}`,
+      );
+
       // Check if there are any entries in the latest available epoch
       if (availableEpochs.length > 0) {
         const latestAvailableEpoch = Math.max(...availableEpochs);
-        this.logger.log(`calculateAPY: Falling back to latest available epoch with data: ${latestAvailableEpoch}`);
-        
+        this.logger.log(
+          `calculateAPY: Falling back to latest available epoch with data: ${latestAvailableEpoch}`,
+        );
+
         // Get entries from the latest available epoch
         currentEpochEntries = await this.staderSolPriceHistoryRepository
           .createQueryBuilder('history')
-          .where('history.currentEpoch = :latestEpoch', { latestEpoch: latestAvailableEpoch })
+          .where('history.currentEpoch = :latestEpoch', {
+            latestEpoch: latestAvailableEpoch,
+          })
           .getMany();
-        
-        this.logger.log(`calculateAPY: Found ${currentEpochEntries.length} entries in latest available epoch ${latestAvailableEpoch}`);
+
+        this.logger.log(
+          `calculateAPY: Found ${currentEpochEntries.length} entries in latest available epoch ${latestAvailableEpoch}`,
+        );
         actualEpoch = latestAvailableEpoch;
       }
-      
+
       if (currentEpochEntries.length < 1) {
-        throw new Error(`No price data available for current epoch (${currentEpoch}) or any previous epoch`);
+        throw new Error(
+          `No price data available for current epoch (${currentEpoch}) or any previous epoch`,
+        );
       }
     }
 
     // Find highest price in current epoch
     const currentEpochHighestPrice = Math.max(
-      ...currentEpochEntries.map(entry => Number(entry.newStaderSolPrice))
+      ...currentEpochEntries.map((entry) => Number(entry.newStaderSolPrice)),
     );
-    this.logger.log(`calculateAPY: Highest price in epoch ${actualEpoch}: ${currentEpochHighestPrice}`);
+    this.logger.log(
+      `calculateAPY: Highest price in epoch ${actualEpoch}: ${currentEpochHighestPrice}`,
+    );
 
     // Constants
     const EPOCH_DURATION_DAYS = 2; // Each epoch is approximately 2 days
     const DAYS_IN_YEAR = 365.25; // Including leap years
     const EPOCHS_PER_YEAR = DAYS_IN_YEAR / EPOCH_DURATION_DAYS;
-    
+
     const currentPrice = currentEpochHighestPrice;
     const startingPrice = 1; // staderSOL starts at 1
     const epochsPassed = actualEpoch - programStartEpoch;
 
     // Calculate growth
     const growth = currentPrice - startingPrice;
-    
+
     // Calculate APR
-    const apr = (growth / startingPrice) * (EPOCHS_PER_YEAR / epochsPassed) * 100;
-    
+    const apr =
+      (growth / startingPrice) * (EPOCHS_PER_YEAR / epochsPassed) * 100;
+
     // Calculate growth factor for APY
     const growthFactor = currentPrice / startingPrice;
-    
+
     // Calculate APY using compound growth formula
-    const apy = (Math.pow(growthFactor, EPOCHS_PER_YEAR / epochsPassed) - 1) * 100;
+    const apy =
+      (Math.pow(growthFactor, EPOCHS_PER_YEAR / epochsPassed) - 1) * 100;
 
     // Get latest total staked amount
     const latestEntry = currentEpochEntries[currentEpochEntries.length - 1];
 
-    this.logger.log(`calculateAPY: Calculation complete - APR: ${apr}%, APY: ${apy}%`);
+    this.logger.log(
+      `calculateAPY: Calculation complete - APR: ${apr}%, APY: ${apy}%`,
+    );
 
     return {
       apr,
@@ -338,14 +359,14 @@ export class StateService {
       currentPrice,
       growthFactor,
       totalStaked: Number(latestEntry.totalVirtualStakedLamports),
-      usingHistoricData: actualEpoch !== currentEpoch
+      usingHistoricData: actualEpoch !== currentEpoch,
     };
   }
 
   async getUnstakeTicketTimeLeft(ticket: string) {
     try {
       const unstakeTicket = await this.unstakeTicketsRepository.findOne({
-        where: { ticket }
+        where: { ticket },
       });
 
       if (!unstakeTicket) {
@@ -357,7 +378,7 @@ export class StateService {
         data: {
           ticket: unstakeTicket.ticket,
           claimableTime: unstakeTicket.claimableTime.toString(),
-        }
+        },
       };
     } catch (error) {
       this.logger.error('Error fetching unstake ticket time left:', error);
@@ -365,10 +386,13 @@ export class StateService {
     }
   }
 
-  async updateUnstakeTicket(ticket: string, update: Partial<Omit<TicketUpdate, 'ticket'>>) {
+  async updateUnstakeTicket(
+    ticket: string,
+    update: Partial<Omit<TicketUpdate, 'ticket'>>,
+  ) {
     try {
       const unstakeTicket = await this.unstakeTicketsRepository.findOne({
-        where: { ticket }
+        where: { ticket },
       });
 
       if (!unstakeTicket) {
@@ -385,7 +409,8 @@ export class StateService {
         unstakeTicket.claimedTime = update.claimedTime;
       }
 
-      const savedTicket = await this.unstakeTicketsRepository.save(unstakeTicket);
+      const savedTicket =
+        await this.unstakeTicketsRepository.save(unstakeTicket);
 
       return {
         success: true,
@@ -394,8 +419,8 @@ export class StateService {
           solAmount: savedTicket.solAmount.toString(),
           claimableTime: savedTicket.claimableTime.toString(),
           claimed: savedTicket.claimed,
-          claimedTime: savedTicket.claimedTime
-        }
+          claimedTime: savedTicket.claimedTime,
+        },
       };
     } catch (error) {
       this.logger.error('Error updating unstake ticket:', error);
@@ -403,22 +428,25 @@ export class StateService {
     }
   }
 
-  async updateUnstakeTicketClaimableTime(ticket: string, claimableTime: string) {
+  async updateUnstakeTicketClaimableTime(
+    ticket: string,
+    claimableTime: string,
+  ) {
     return this.updateUnstakeTicket(ticket, { claimableTime });
   }
 
   async updateUnstakeTicketsBulk(updates: TicketUpdate[]) {
     try {
       const tickets = await this.unstakeTicketsRepository.find({
-        where: updates.map(update => ({ ticket: update.ticket }))
+        where: updates.map((update) => ({ ticket: update.ticket })),
       });
 
       if (!tickets.length) {
         throw new Error('No unstake tickets found');
       }
 
-      const updatedTickets = tickets.map(ticket => {
-        const update = updates.find(u => u.ticket === ticket.ticket);
+      const updatedTickets = tickets.map((ticket) => {
+        const update = updates.find((u) => u.ticket === ticket.ticket);
         if (update) {
           if (update.claimableTime !== undefined) {
             ticket.claimableTime = BigInt(update.claimableTime);
@@ -433,17 +461,18 @@ export class StateService {
         return ticket;
       });
 
-      const savedTickets = await this.unstakeTicketsRepository.save(updatedTickets);
+      const savedTickets =
+        await this.unstakeTicketsRepository.save(updatedTickets);
 
       return {
         success: true,
-        data: savedTickets.map(ticket => ({
+        data: savedTickets.map((ticket) => ({
           ...ticket,
           solAmount: ticket.solAmount.toString(),
           claimableTime: ticket.claimableTime.toString(),
           claimed: ticket.claimed,
-          claimedTime: ticket.claimedTime
-        }))
+          claimedTime: ticket.claimedTime,
+        })),
       };
     } catch (error) {
       this.logger.error('Error updating unstake tickets in bulk:', error);
@@ -451,11 +480,13 @@ export class StateService {
     }
   }
 
-  async updateUnstakeTicketsClaimableTimeBulk(updates: { ticket: string; claimableTime: string }[]) {
-    const formattedUpdates = updates.map(update => ({
+  async updateUnstakeTicketsClaimableTimeBulk(
+    updates: { ticket: string; claimableTime: string }[],
+  ) {
+    const formattedUpdates = updates.map((update) => ({
       ticket: update.ticket,
-      claimableTime: update.claimableTime
+      claimableTime: update.claimableTime,
     }));
     return this.updateUnstakeTicketsBulk(formattedUpdates);
   }
-} 
+}

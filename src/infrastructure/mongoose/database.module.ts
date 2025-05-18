@@ -4,12 +4,12 @@ import { MongooseConfigService } from './mongoose.config.service';
 import { EnvironmentConfigModule } from '../environment-config';
 
 @Module({
-  imports:[
+  imports: [
     EnvironmentConfigModule,
     MongooseModule.forRootAsync({
-      useClass:MongooseConfigService
-    })
+      useClass: MongooseConfigService,
+    }),
   ],
-  exports:[MongooseModule],
+  exports: [MongooseModule],
 })
-export class DatabaseModule{}
+export class DatabaseModule {}

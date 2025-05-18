@@ -1,5 +1,15 @@
-import { ASSOCIATED_TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction, getAssociatedTokenAddressSync, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import type { ConfirmOptions, Connection, PublicKey, Signer } from '@solana/web3.js';
+import {
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
+  getAssociatedTokenAddressSync,
+  TOKEN_PROGRAM_ID,
+} from '@solana/spl-token';
+import type {
+  ConfirmOptions,
+  Connection,
+  PublicKey,
+  Signer,
+} from '@solana/web3.js';
 import { sendAndConfirmTransaction, Transaction } from '@solana/web3.js';
 
 /**
@@ -17,33 +27,33 @@ import { sendAndConfirmTransaction, Transaction } from '@solana/web3.js';
  * @return Address of the new associated token account
  */
 export async function createAtaTx(
-    connection: Connection,
-    payer: Signer,
-    mint: PublicKey,
-    owner: PublicKey,
-    confirmOptions?: ConfirmOptions,
-    programId = TOKEN_PROGRAM_ID,
-    associatedTokenProgramId = ASSOCIATED_TOKEN_PROGRAM_ID,
-    allowOwnerOffCurve = false,
+  connection: Connection,
+  payer: Signer,
+  mint: PublicKey,
+  owner: PublicKey,
+  confirmOptions?: ConfirmOptions,
+  programId = TOKEN_PROGRAM_ID,
+  associatedTokenProgramId = ASSOCIATED_TOKEN_PROGRAM_ID,
+  allowOwnerOffCurve = false,
 ): Promise<Transaction> {
-    const associatedToken = getAssociatedTokenAddressSync(
-        mint,
-        owner,
-        allowOwnerOffCurve,
-        programId,
-        associatedTokenProgramId,
-    );
+  const associatedToken = getAssociatedTokenAddressSync(
+    mint,
+    owner,
+    allowOwnerOffCurve,
+    programId,
+    associatedTokenProgramId,
+  );
 
-    const transaction = new Transaction().add(
-        createAssociatedTokenAccountInstruction(
-            payer.publicKey,
-            associatedToken,
-            owner,
-            mint,
-            programId,
-            associatedTokenProgramId,
-        ),
-    );
+  const transaction = new Transaction().add(
+    createAssociatedTokenAccountInstruction(
+      payer.publicKey,
+      associatedToken,
+      owner,
+      mint,
+      programId,
+      associatedTokenProgramId,
+    ),
+  );
 
-    return transaction;
+  return transaction;
 }

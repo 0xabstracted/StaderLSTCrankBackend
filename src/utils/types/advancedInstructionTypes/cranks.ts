@@ -1,38 +1,37 @@
-import { Keypair, PublicKey } from "@solana/web3.js";
+import { Keypair, PublicKey } from '@solana/web3.js';
 
 export interface StakeReserveParam {
-    validatorIndex: number,
-    validatorVote: PublicKey
+  validatorIndex: number;
+  validatorVote: PublicKey;
 }
 
-
 export interface UpdateActiveParam {
-    stakeIndex: number,
-    validatorIndex: number
+  stakeIndex: number;
+  validatorIndex: number;
 }
 
 export interface UpdateDeactivatedParam {
-    stakeIndex: number,
+  stakeIndex: number;
 }
 
 export interface DeactivateStakeParam {
-    stakeIndex: number,
-    validatorIndex: number,
-    splitStakeAccount: Keypair
+  stakeIndex: number;
+  validatorIndex: number;
+  splitStakeAccount: Keypair;
 }
 
 export interface MergeStakeParam {
-    destinationStakeIndex: number,
-    sourceStakeIndex: number,
-    validatorIndex: number,
-    splitStakeAccount: Keypair
+  destinationStakeIndex: number;
+  sourceStakeIndex: number;
+  validatorIndex: number;
+  splitStakeAccount: Keypair;
 }
 
 export interface RedelegateParam {
-    stakeIndex: number,
-    sourceValidatorIndex: number,
-    destValidatorIndex: number,
-    validatorVote: PublicKey
-    splitStakeAccount: Keypair,
-    newRedelegateStakeAccount: Keypair,
+  stakeIndex: number;
+  sourceValidatorIndex: number;
+  destValidatorIndex: number;
+  validatorVote: PublicKey;
+  splitStakeAccount: Keypair;
+  newRedelegateStakeAccount: Keypair;
 }

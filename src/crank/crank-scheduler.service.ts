@@ -17,7 +17,7 @@ export class CrankSchedulerService implements OnModuleInit {
     isUpdateActiveRunning: false,
     isUpdateDeactivatedRunning: false,
     lastExecutionTime: null as Date | null,
-    currentOperation: null as string | null
+    currentOperation: null as string | null,
   };
   // Add tracking for last executed epochs
   private lastDeactivateStakeEpoch: number = 0;
@@ -45,13 +45,20 @@ export class CrankSchedulerService implements OnModuleInit {
 
   private async checkSlotForDeactivateStakeCranks() {
     try {
-      const { currentSlot, targetSlot, timeUntilExecution } = await this.epochService.slotChecker(this.SLOTS_FOR_STAKE_DELTA);
+      const { currentSlot, targetSlot, timeUntilExecution } =
+        await this.epochService.slotChecker(this.SLOTS_FOR_STAKE_DELTA);
       const currentEpoch = (await this.epochService.getEpochInfo()).epoch;
 
       // Execute when we reach target slot, cranks aren't running, and haven't run in this epoch
-      if (currentSlot >= targetSlot && !this.areCranksRunning && currentEpoch > this.lastDeactivateStakeEpoch) {
+      if (
+        currentSlot >= targetSlot &&
+        !this.areCranksRunning &&
+        currentEpoch > this.lastDeactivateStakeEpoch
+      ) {
         this.areCranksRunning = true;
-        this.logger.log(`Target slot ${targetSlot} reached. Starting deactivateStake crank for epoch ${currentEpoch}...`);
+        this.logger.log(
+          `Target slot ${targetSlot} reached. Starting deactivateStake crank for epoch ${currentEpoch}...`,
+        );
 
         try {
           this.processStatus.isDeactivateStakeRunning = true;
@@ -61,7 +68,9 @@ export class CrankSchedulerService implements OnModuleInit {
           this.processStatus.isDeactivateStakeRunning = false;
           this.processStatus.lastExecutionTime = new Date();
           this.processStatus.currentOperation = null;
-          this.logger.log(`deactivateStake completed for epoch ${currentEpoch}`);
+          this.logger.log(
+            `deactivateStake completed for epoch ${currentEpoch}`,
+          );
         } catch (error) {
           this.resetAllFlags();
           this.logger.error('Error in deactivateStake crank:', error);
@@ -73,7 +82,7 @@ export class CrankSchedulerService implements OnModuleInit {
           message: 'deactivateStake Process completed',
           currentSlot,
           targetSlot,
-          timeUntilExecution
+          timeUntilExecution,
         });
       }
     } catch (error) {
@@ -81,16 +90,23 @@ export class CrankSchedulerService implements OnModuleInit {
       this.areCranksRunning = false;
     }
   }
-        
+
   private async checkSlotForStakeDeltaCranks() {
     try {
-      const { currentSlot, targetSlot, timeUntilExecution } = await this.epochService.slotChecker(this.SLOTS_FOR_STAKE_DELTA);
+      const { currentSlot, targetSlot, timeUntilExecution } =
+        await this.epochService.slotChecker(this.SLOTS_FOR_STAKE_DELTA);
       const currentEpoch = (await this.epochService.getEpochInfo()).epoch;
 
-      if (currentSlot >= targetSlot && !this.areCranksRunning && currentEpoch > this.lastStakeDeltaEpoch) {
+      if (
+        currentSlot >= targetSlot &&
+        !this.areCranksRunning &&
+        currentEpoch > this.lastStakeDeltaEpoch
+      ) {
         this.areCranksRunning = true;
-        this.logger.log(`Target slot ${targetSlot} reached. Starting stakeDelta crank for epoch ${currentEpoch}...`);
-        
+        this.logger.log(
+          `Target slot ${targetSlot} reached. Starting stakeDelta crank for epoch ${currentEpoch}...`,
+        );
+
         try {
           this.processStatus.isStakeReserveRunning = true;
           this.processStatus.currentOperation = 'stakeReserve';
@@ -111,7 +127,7 @@ export class CrankSchedulerService implements OnModuleInit {
           message: 'stakeReserve Process completed',
           currentSlot,
           targetSlot,
-          timeUntilExecution
+          timeUntilExecution,
         });
       }
     } catch (error) {
@@ -122,17 +138,26 @@ export class CrankSchedulerService implements OnModuleInit {
 
   private async checkSlotsForUpdateCranks() {
     try {
-      const { currentSlot, targetSlot, timeUntilExecution } = await this.epochService.slotChecker(this.SLOTS_FOR_UPDATE_CRANKS);
+      const { currentSlot, targetSlot, timeUntilExecution } =
+        await this.epochService.slotChecker(this.SLOTS_FOR_UPDATE_CRANKS);
       const currentEpoch = (await this.epochService.getEpochInfo()).epoch;
 
-      if (currentSlot >= targetSlot && !this.areCranksRunning && currentEpoch > this.lastUpdateCranksEpoch) {
+      if (
+        currentSlot >= targetSlot &&
+        !this.areCranksRunning &&
+        currentEpoch > this.lastUpdateCranksEpoch
+      ) {
         this.areCranksRunning = true;
-        this.logger.log(`Target slot ${targetSlot} reached. Starting Update Active and Deactivated for epoch ${currentEpoch}...`);
-        
+        this.logger.log(
+          `Target slot ${targetSlot} reached. Starting Update Active and Deactivated for epoch ${currentEpoch}...`,
+        );
+
         try {
           await this.executeUpdateCranks();
           this.lastUpdateCranksEpoch = currentEpoch; // Update last executed epoch
-          this.logger.log(`Update Active and Deactivated completed successfully for epoch ${currentEpoch}`);
+          this.logger.log(
+            `Update Active and Deactivated completed successfully for epoch ${currentEpoch}`,
+          );
         } catch (error) {
           this.logger.error('Update Active and Deactivated failed:', error);
           this.resetAllFlags();
@@ -141,10 +166,11 @@ export class CrankSchedulerService implements OnModuleInit {
         }
 
         this.logger.log({
-          message: 'Process cycle completed after Update Active and Deactivated',
+          message:
+            'Process cycle completed after Update Active and Deactivated',
           currentSlot,
           targetSlot,
-          timeUntilExecution
+          timeUntilExecution,
         });
       }
     } catch (error) {
@@ -176,7 +202,10 @@ export class CrankSchedulerService implements OnModuleInit {
 
       this.logger.log('Update Active and Deactivated completed successfully');
     } catch (error) {
-      this.logger.error('Error executing Update Active and Deactivated:', error);
+      this.logger.error(
+        'Error executing Update Active and Deactivated:',
+        error,
+      );
       throw error; // Re-throw to trigger error handling in parent
     } finally {
       // Always reset the areCranksRunning flag when updates complete or fail
@@ -204,7 +233,7 @@ export class CrankSchedulerService implements OnModuleInit {
   async getCranksExecutionStatus() {
     return {
       ...this.processStatus,
-      isAnyProcessRunning: this.areCranksRunning
+      isAnyProcessRunning: this.areCranksRunning,
     };
   }
-} 
+}

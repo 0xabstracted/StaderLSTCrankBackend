@@ -20,4 +20,6 @@ export class SetValidatorScoreEvent {
   // Add other relevant fields if necessary
 }
 
-export const SetValidatorScoreEventSchema = SchemaFactory.createForClass(SetValidatorScoreEvent);
+export const SetValidatorScoreEventSchema = SchemaFactory.createForClass(
+  SetValidatorScoreEvent,
+);

@@ -1,8 +1,8 @@
-import { 
-    Entity, 
-    PrimaryGeneratedColumn, 
-    Column, 
-    CreateDateColumn 
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
 } from 'typeorm';
 
 @Entity('state_metrics')
@@ -21,7 +21,7 @@ export class StateMetrics {
     transformer: {
       to: (value: bigint) => value.toString(),
       from: (value: string) => BigInt(value),
-    }
+    },
   })
   delayedUnstakeCoolingDown: bigint;
 
@@ -30,7 +30,7 @@ export class StateMetrics {
     transformer: {
       to: (value: bigint) => value.toString(),
       from: (value: string) => BigInt(value),
-    }
+    },
   })
   emergencyCoolingDown: bigint;
 
@@ -39,7 +39,7 @@ export class StateMetrics {
     transformer: {
       to: (value: bigint) => value.toString(),
       from: (value: string) => BigInt(value),
-    }
+    },
   })
   availableReserveBalance: bigint;
 
@@ -54,7 +54,7 @@ export class StateMetrics {
     transformer: {
       to: (value: bigint) => value.toString(),
       from: (value: string) => BigInt(value),
-    }
+    },
   })
   validatorActiveBalance: bigint;
 
@@ -63,10 +63,10 @@ export class StateMetrics {
     transformer: {
       to: (value: bigint) => value.toString(),
       from: (value: string) => BigInt(value),
-    }
+    },
   })
   totalActiveBalance: bigint;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
-} 
+}

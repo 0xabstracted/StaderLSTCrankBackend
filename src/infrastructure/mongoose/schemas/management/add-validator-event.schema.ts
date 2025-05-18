@@ -24,4 +24,5 @@ export class AddValidatorEvent {
   score: number;
 }
 
-export const AddValidatorEventSchema = SchemaFactory.createForClass(AddValidatorEvent);
+export const AddValidatorEventSchema =
+  SchemaFactory.createForClass(AddValidatorEvent);

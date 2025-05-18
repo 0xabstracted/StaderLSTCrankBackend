@@ -2,7 +2,7 @@ import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../guards/auth.guard';
 import { SolanaEventsService } from './event.service';
-import { 
+import {
   ChangeAuthorityEvent,
   ConfigLpEvent,
   ConfigStaderLiquidStakingEvent,
@@ -40,12 +40,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get add validator events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns add validator events'
+    description: 'Returns add validator events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getAddValidatorEvents(
     @Query('validatorId') validatorId: string,
@@ -59,18 +59,21 @@ export class EventController {
   @ApiOperation({ summary: 'Get remove validator events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns remove validator events'
+    description: 'Returns remove validator events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getRemoveValidatorEvents(
     @Query('validatorId') validatorId: string,
     @Query('limit') limit: number = 10,
   ): Promise<RemoveValidatorEvent[]> {
-    return this.solanaEventsService.getRemoveValidatorEvents(validatorId, limit);
+    return this.solanaEventsService.getRemoveValidatorEvents(
+      validatorId,
+      limit,
+    );
   }
 
   @Get('set-validator-score')
@@ -78,18 +81,21 @@ export class EventController {
   @ApiOperation({ summary: 'Get set validator score events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns set validator score events'
+    description: 'Returns set validator score events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getSetValidatorScoreEvents(
     @Query('validatorId') validatorId: string,
     @Query('limit') limit: number = 10,
   ): Promise<SetValidatorScoreEvent[]> {
-    return this.solanaEventsService.getSetValidatorScoreEvents(validatorId, limit);
+    return this.solanaEventsService.getSetValidatorScoreEvents(
+      validatorId,
+      limit,
+    );
   }
 
   // Add similar endpoints for other event types
@@ -98,12 +104,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get claim events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns claim events'
+    description: 'Returns claim events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getClaimEvents(
     @Query('state') state: string,
@@ -117,12 +123,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get order unstake events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns order unstake events'
+    description: 'Returns order unstake events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getOrderUnstakeEvents(
     @Query('state') state: string,
@@ -136,12 +142,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get add liquidity events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns add liquidity events'
+    description: 'Returns add liquidity events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getAddLiquidityEvents(
     @Query('state') state: string,
@@ -155,12 +161,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get liquid unstake events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns liquid unstake events'
+    description: 'Returns liquid unstake events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getLiquidUnstakeEvents(
     @Query('state') state: string,
@@ -174,12 +180,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get remove liquidity events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns remove liquidity events'
+    description: 'Returns remove liquidity events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getRemoveLiquidityEvents(
     @Query('state') state: string,
@@ -193,12 +199,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get deposit events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns deposit events'
+    description: 'Returns deposit events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getDepositEvents(
     @Query('state') state: string,
@@ -212,12 +218,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get deposit stake account events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns deposit stake account events'
+    description: 'Returns deposit stake account events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getDepositStakeAccountEvents(
     @Query('state') state: string,
@@ -231,12 +237,12 @@ export class EventController {
   @ApiOperation({ summary: 'Get withdraw stake account events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns withdraw stake account events'
+    description: 'Returns withdraw stake account events',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getWithdrawStakeAccountEvents(
     @Query('state') state: string,

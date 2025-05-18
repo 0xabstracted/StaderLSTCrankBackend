@@ -1,29 +1,29 @@
-import { Keypair, PublicKey } from "@solana/web3.js";
-import BN from "bn.js";
+import { Keypair, PublicKey } from '@solana/web3.js';
+import BN from 'bn.js';
 
 interface EmergencyUnstakeParam {
-    stake_index: number,
-    validator_index: number,
+  stake_index: number;
+  validator_index: number;
 }
 
 interface PartialUnstakeParam {
-    stake_index: number,
-    validator_index: number,
-    desired_unstake_amount: BN,
-    splitStakeAccount: Keypair
+  stake_index: number;
+  validator_index: number;
+  desired_unstake_amount: BN;
+  splitStakeAccount: Keypair;
 }
 
 interface ReallocStakeListParam {
-    capacity: number,
+  capacity: number;
 }
 
 interface ReallocValidatorListParam {
-    capacity: number,
+  capacity: number;
 }
 
 export {
-    EmergencyUnstakeParam,
-    PartialUnstakeParam,
-    ReallocStakeListParam,
-    ReallocValidatorListParam,
-}
+  EmergencyUnstakeParam,
+  PartialUnstakeParam,
+  ReallocStakeListParam,
+  ReallocValidatorListParam,
+};

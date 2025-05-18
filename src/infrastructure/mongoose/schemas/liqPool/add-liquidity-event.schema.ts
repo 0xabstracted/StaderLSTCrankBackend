@@ -36,4 +36,5 @@ export class AddLiquidityEvent {
   staderSolSupply: number;
 }
 
-export const AddLiquidityEventSchema = SchemaFactory.createForClass(AddLiquidityEvent); 
+export const AddLiquidityEventSchema =
+  SchemaFactory.createForClass(AddLiquidityEvent);

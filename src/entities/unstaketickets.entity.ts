@@ -14,35 +14,41 @@ export class UnstakeTickets {
   @Column({ type: 'varchar', length: 255 })
   state: string;
 
-  @Column({ type: 'varchar', length: 255})
+  @Column({ type: 'varchar', length: 255 })
   ticket: string;
 
   @Column({ type: 'bigint' })
   ticketCreatedEpoch: number;
 
-  @Column({ type: 'varchar', length: 255})
+  @Column({ type: 'varchar', length: 255 })
   beneficiary: string;
 
-  @Column({ type: 'bigint', transformer: { 
-    to: (value: bigint) => value.toString(),
-    from: (value: string) => BigInt(value)
-  }})
+  @Column({
+    type: 'bigint',
+    transformer: {
+      to: (value: bigint) => value.toString(),
+      from: (value: string) => BigInt(value),
+    },
+  })
   solAmount: bigint;
 
-  @Column({ type: 'bigint', transformer: { 
-    to: (value: bigint) => value.toString(),
-    from: (value: string) => BigInt(value)
-  }})
+  @Column({
+    type: 'bigint',
+    transformer: {
+      to: (value: bigint) => value.toString(),
+      from: (value: string) => BigInt(value),
+    },
+  })
   claimableTime: bigint;
 
   @Column({ type: 'boolean', default: false })
   claimed: boolean;
 
-  @Column({ 
-    type: 'timestamp', 
+  @Column({
+    type: 'timestamp',
     nullable: true,
     default: null,
-    comment: 'Timestamp when the ticket was claimed'
+    comment: 'Timestamp when the ticket was claimed',
   })
   claimedTime: Date | null;
 
@@ -56,5 +62,3 @@ export class UnstakeTickets {
   })
   updated_at: Date;
 }
-  
-

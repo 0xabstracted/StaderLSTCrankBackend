@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type ReallocValidatorListEventDocument = ReallocValidatorListEvent & Document;
+export type ReallocValidatorListEventDocument = ReallocValidatorListEvent &
+  Document;
 
 @Schema()
 export class ReallocValidatorListEvent {
@@ -15,4 +16,6 @@ export class ReallocValidatorListEvent {
   newCapacity: number;
 }
 
-export const ReallocValidatorListEventSchema = SchemaFactory.createForClass(ReallocValidatorListEvent); 
+export const ReallocValidatorListEventSchema = SchemaFactory.createForClass(
+  ReallocValidatorListEvent,
+);

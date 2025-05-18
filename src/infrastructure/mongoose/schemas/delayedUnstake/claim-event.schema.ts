@@ -33,4 +33,4 @@ export class ClaimEvent {
   amount: number;
 }
 
-export const ClaimEventSchema = SchemaFactory.createForClass(ClaimEvent); 
+export const ClaimEventSchema = SchemaFactory.createForClass(ClaimEvent);

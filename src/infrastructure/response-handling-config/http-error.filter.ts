@@ -34,7 +34,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const errorResponse = {
       status: 'error',
-      code:_response['status'],
+      code: _response['status'],
       errorMessage:
         _response['errorMessage'] == null
           ? exception['response']

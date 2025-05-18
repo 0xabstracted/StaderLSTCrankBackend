@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type DepositStakeAccountEventDocument = DepositStakeAccountEvent & Document;
+export type DepositStakeAccountEventDocument = DepositStakeAccountEvent &
+  Document;
 
 @Schema()
 export class DepositStakeAccountEvent {
@@ -45,4 +46,6 @@ export class DepositStakeAccountEvent {
   staderSolSupply: number;
 }
 
-export const DepositStakeAccountEventSchema = SchemaFactory.createForClass(DepositStakeAccountEvent);
+export const DepositStakeAccountEventSchema = SchemaFactory.createForClass(
+  DepositStakeAccountEvent,
+);

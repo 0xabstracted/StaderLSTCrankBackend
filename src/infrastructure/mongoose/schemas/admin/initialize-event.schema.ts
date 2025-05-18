@@ -36,4 +36,5 @@ export class InitializeEvent {
   treasuryStaderSolAccount: string;
 }
 
-export const InitializeEventSchema = SchemaFactory.createForClass(InitializeEvent); 
+export const InitializeEventSchema =
+  SchemaFactory.createForClass(InitializeEvent);

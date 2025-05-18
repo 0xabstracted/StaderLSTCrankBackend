@@ -3,29 +3,28 @@ import { Document } from 'mongoose';
 
 export type UpdateDeactivatedEventDocument = UpdateDeactivatedEvent & Document;
 
-class Fraction{
-  @Prop({required:true})
-  numerator:number;
-  @Prop({required:true})
-  denominator:number;
+class Fraction {
+  @Prop({ required: true })
+  numerator: number;
+  @Prop({ required: true })
+  denominator: number;
 }
 
-class FractionChange{
-  @Prop({required:true})
-  oldValue:Fraction;
+class FractionChange {
+  @Prop({ required: true })
+  oldValue: Fraction;
 
-  @Prop({required:true})
-  newValue:Fraction;
+  @Prop({ required: true })
+  newValue: Fraction;
 }
 
-class NumberChange{
-  @Prop({required:true})
-  oldValue:number;
+class NumberChange {
+  @Prop({ required: true })
+  oldValue: number;
 
-  @Prop({required:true})
-  newValue:number;
+  @Prop({ required: true })
+  newValue: number;
 }
-
 
 @Schema()
 export class UpdateDeactivatedEvent {
@@ -50,10 +49,10 @@ export class UpdateDeactivatedEvent {
   @Prop({ required: false })
   staderSolFees: number | null;
 
-  @Prop({ type:NumberChange,required: true })
+  @Prop({ type: NumberChange, required: true })
   staderSolPriceChange: NumberChange | null;
 
-  @Prop({ type:FractionChange,required: true })
+  @Prop({ type: FractionChange, required: true })
   rewardFeeUsed: FractionChange | null;
 
   @Prop({ required: true })
@@ -66,4 +65,6 @@ export class UpdateDeactivatedEvent {
   staderSolSupply: number;
 }
 
-export const UpdateDeactivatedEventSchema = SchemaFactory.createForClass(UpdateDeactivatedEvent); 
+export const UpdateDeactivatedEventSchema = SchemaFactory.createForClass(
+  UpdateDeactivatedEvent,
+);

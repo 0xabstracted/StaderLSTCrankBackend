@@ -71,8 +71,8 @@ export class Validator {
   @Column({ type: 'smallint', nullable: true })
   totalScore: number;
 
-  @Column({type:'int',nullable:true})
-  protocol_vec_index:number;
+  @Column({ type: 'int', nullable: true })
+  protocol_vec_index: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
@@ -84,5 +84,3 @@ export class Validator {
   })
   updated_at: Date;
 }
-  
-

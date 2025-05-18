@@ -9,4 +9,5 @@ export class EmergencyPauseEvent {
   state: string;
 }
 
-export const EmergencyPauseEventSchema = SchemaFactory.createForClass(EmergencyPauseEvent); 
+export const EmergencyPauseEventSchema =
+  SchemaFactory.createForClass(EmergencyPauseEvent);

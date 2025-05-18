@@ -14,15 +14,16 @@ export class ValidatorController {
   @ApiOperation({ summary: 'Get list of validators' })
   @ApiResponse({
     status: 200,
-    description: 'Returns paginated list of validators'
+    description: 'Returns paginated list of validators',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async getValidatorsList(@Query() paginationQuery: ListPaginationDto) {
-    const res = await this.validatorDataService.getValidatorsList(paginationQuery);
+    const res =
+      await this.validatorDataService.getValidatorsList(paginationQuery);
     return res;
   }
 
@@ -31,12 +32,12 @@ export class ValidatorController {
   @ApiOperation({ summary: 'Bulk update or create validators' })
   @ApiResponse({
     status: 200,
-    description: 'Validators updated or created successfully'
+    description: 'Validators updated or created successfully',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async updateOrCreateBulk(@Body() validators: any[]): Promise<string> {
     await this.validatorDataService.createOrUpdateBulk(validators);
@@ -48,12 +49,12 @@ export class ValidatorController {
   @ApiOperation({ summary: 'Create a new validator' })
   @ApiResponse({
     status: 200,
-    description: 'Validator created successfully'
+    description: 'Validator created successfully',
   })
   @ApiHeader({
     name: 'x-api-key',
     description: 'API key for authentication',
-    required: true
+    required: true,
   })
   async createValidator(@Body() validator: any): Promise<string> {
     await this.validatorDataService.createValidator(validator);

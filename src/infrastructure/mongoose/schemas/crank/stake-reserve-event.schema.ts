@@ -45,4 +45,5 @@ export class StakeReserveEvent {
   amount: number;
 }
 
-export const StakeReserveEventSchema = SchemaFactory.createForClass(StakeReserveEvent);
+export const StakeReserveEventSchema =
+  SchemaFactory.createForClass(StakeReserveEvent);

@@ -3,9 +3,9 @@ import { Document } from 'mongoose';
 
 export type DeactivateStakeEventDocument = DeactivateStakeEvent & Document;
 
-class StakeAccount{
-  account:string;
-  index:number
+class StakeAccount {
+  account: string;
+  index: number;
 }
 
 @Schema()
@@ -25,7 +25,7 @@ export class DeactivateStakeEvent {
   @Prop({ required: true })
   lastUpdateStakeDelegation: number;
 
-  @Prop({ type:StakeAccount,required: false })
+  @Prop({ type: StakeAccount, required: false })
   splitStakeAccount: StakeAccount | null;
 
   @Prop({ required: true })
@@ -56,4 +56,5 @@ export class DeactivateStakeEvent {
   unstakedAmount: number;
 }
 
-export const DeactivateStakeEventSchema = SchemaFactory.createForClass(DeactivateStakeEvent); 
+export const DeactivateStakeEventSchema =
+  SchemaFactory.createForClass(DeactivateStakeEvent);

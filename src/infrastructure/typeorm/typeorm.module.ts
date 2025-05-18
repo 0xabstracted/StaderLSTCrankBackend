@@ -11,8 +11,11 @@ require('dotenv').config();
       imports: [EnvironmentConfigModule],
       inject: [EnvironmentConfigService],
       useFactory: async (config: EnvironmentConfigService) => {
-        const migrationsPath = process.env.NODE_ENV === 'production' ? '/prod-migrations/*{.ts,.js}' : '/migrations/*{.ts,.js}';
-        
+        const migrationsPath =
+          process.env.NODE_ENV === 'production'
+            ? '/prod-migrations/*{.ts,.js}'
+            : '/migrations/*{.ts,.js}';
+
         return {
           type: 'postgres',
           url: config.getDbConnectionUrl(),

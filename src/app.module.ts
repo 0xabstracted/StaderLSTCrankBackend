@@ -11,7 +11,6 @@ import { EpochModule } from './epoch/epoch.module';
 import { StateModule } from './state/state.module';
 import { ListenersModule } from './listeners/listeners.module';
 
-
 @Module({
   imports: [
     ScheduleModule.forRoot(),

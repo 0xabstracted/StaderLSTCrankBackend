@@ -36,4 +36,5 @@ export class RemoveLiquidityEvent {
   staderSolOutAmount: number;
 }
 
-export const RemoveLiquidityEventSchema = SchemaFactory.createForClass(RemoveLiquidityEvent); 
+export const RemoveLiquidityEventSchema =
+  SchemaFactory.createForClass(RemoveLiquidityEvent);

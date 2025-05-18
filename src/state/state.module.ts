@@ -6,15 +6,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UnstakeTickets } from 'src/entities/unstaketickets.entity';
 import { StakeDelegation } from 'src/entities/stakedelegationhistory.entity';
 import { EpochModule } from '../epoch/epoch.module';
-import { StaderSolPriceHistory } from 'src/entities/staderSolpricehistory.entity';
+import { StaderSolPriceHistory } from 'src/entities/stadersolpricehistory.entity';
 @Module({
   imports: [
     UtilsModule,
-    TypeOrmModule.forFeature([UnstakeTickets, StakeDelegation, StaderSolPriceHistory]),
-    EpochModule
+    TypeOrmModule.forFeature([
+      UnstakeTickets,
+      StakeDelegation,
+      StaderSolPriceHistory,
+    ]),
+    EpochModule,
   ],
   controllers: [StateController],
   providers: [StateService],
-  exports: [StateService]
+  exports: [StateService],
 })
-export class StateModule {} 
+export class StateModule {}

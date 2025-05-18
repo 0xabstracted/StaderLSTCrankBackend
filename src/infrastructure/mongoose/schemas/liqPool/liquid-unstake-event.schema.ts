@@ -3,21 +3,20 @@ import { Document } from 'mongoose';
 
 export type LiquidUnstakeEventDocument = LiquidUnstakeEvent & Document;
 
-class Fraction{
-  @Prop({required:true})
-  numerator:number;
-  @Prop({required:true})
-  denominator:number;
+class Fraction {
+  @Prop({ required: true })
+  numerator: number;
+  @Prop({ required: true })
+  denominator: number;
 }
 
-class FractionChange{
-  @Prop({required:true})
-  oldValue:Fraction;
+class FractionChange {
+  @Prop({ required: true })
+  oldValue: Fraction;
 
-  @Prop({required:true})
-  newValue:Fraction;
+  @Prop({ required: true })
+  newValue: Fraction;
 }
-
 
 @Schema()
 export class LiquidUnstakeEvent {
@@ -57,14 +56,15 @@ export class LiquidUnstakeEvent {
   @Prop({ required: true })
   lpLiquidityTarget: number;
 
-  @Prop({type:FractionChange, required: true })
+  @Prop({ type: FractionChange, required: true })
   lpMaxFee: FractionChange | null;
 
-  @Prop({ type:FractionChange,required: true })
+  @Prop({ type: FractionChange, required: true })
   lpMinFee: FractionChange | null;
 
-  @Prop({type:FractionChange, required: true })
+  @Prop({ type: FractionChange, required: true })
   treasuryCut: FractionChange | null;
 }
 
-export const LiquidUnstakeEventSchema = SchemaFactory.createForClass(LiquidUnstakeEvent); 
+export const LiquidUnstakeEventSchema =
+  SchemaFactory.createForClass(LiquidUnstakeEvent);

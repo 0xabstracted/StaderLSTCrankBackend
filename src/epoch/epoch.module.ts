@@ -7,12 +7,9 @@ import { EpochInfo } from '../entities/epoch-info.entity';
 import { EpochTrackerService } from './epoch-tracker.service';
 
 @Module({
-  imports: [
-    UtilsModule,
-    TypeOrmModule.forFeature([EpochInfo])
-  ],
+  imports: [UtilsModule, TypeOrmModule.forFeature([EpochInfo])],
   controllers: [EpochController],
   providers: [EpochService, EpochTrackerService],
-  exports: [EpochService, EpochTrackerService]
+  exports: [EpochService, EpochTrackerService],
 })
-export class EpochModule {} 
+export class EpochModule {}

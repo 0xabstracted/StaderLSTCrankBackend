@@ -51,26 +51,26 @@ export class EnvironmentConfigService {
 
   getAwsS3RootFolder() {
     return this.configService.get<string>('AWS_S3_ROOT_FOLDER');
-  }  
-
-  getSolanaCluster(){
-    return this.configService.get<'MAINNET' | 'DEVNET'>('SOLANA_CLUSTER')
   }
 
-  getSolanaDevnetRPCUrl(){
+  getSolanaCluster() {
+    return this.configService.get<'MAINNET' | 'DEVNET'>('SOLANA_CLUSTER');
+  }
+
+  getSolanaDevnetRPCUrl() {
     return this.configService.get<string>('SOLANA_RPC_URL_DEVNET');
   }
 
-  getSolanaMainnetRPCUrl(){
-    return this.configService.get<string>("SOLANA_RPC_URL_MAINNET");
+  getSolanaMainnetRPCUrl() {
+    return this.configService.get<string>('SOLANA_RPC_URL_MAINNET');
   }
 
-  getValidatorsAppUrl(){
-    return this.configService.get<string>('VALIDATORS_APP_URL')
+  getValidatorsAppUrl() {
+    return this.configService.get<string>('VALIDATORS_APP_URL');
   }
 
-  getValidatorsAppKey(){
-    return this.configService.get<string>('VALIDATORS_APP_API_KEY')
+  getValidatorsAppKey() {
+    return this.configService.get<string>('VALIDATORS_APP_API_KEY');
   }
 
   getMongoDbUri(): string {

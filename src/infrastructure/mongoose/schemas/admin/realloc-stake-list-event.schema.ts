@@ -15,4 +15,6 @@ export class ReallocStakeListEvent {
   newCapacity: number;
 }
 
-export const ReallocStakeListEventSchema = SchemaFactory.createForClass(ReallocStakeListEvent); 
+export const ReallocStakeListEventSchema = SchemaFactory.createForClass(
+  ReallocStakeListEvent,
+);

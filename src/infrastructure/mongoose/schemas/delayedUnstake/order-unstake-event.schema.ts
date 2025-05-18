@@ -42,4 +42,5 @@ export class OrderUnstakeEvent {
   staderSolSupply: number;
 }
 
-export const OrderUnstakeEventSchema = SchemaFactory.createForClass(OrderUnstakeEvent); 
+export const OrderUnstakeEventSchema =
+  SchemaFactory.createForClass(OrderUnstakeEvent);
